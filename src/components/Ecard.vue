@@ -18,7 +18,7 @@
 					<CardSideDec />
 					<div class="videoBorder">
 						<div class="videoContainer">
-							<video src="../assets/video.mp4" controls></video>		
+							<video src="../assets/video.mp4" controls poster="../assets/meta.jpg"></video>		
 						</div>
 					</div>
 					<CardSideDec />

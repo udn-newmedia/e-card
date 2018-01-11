@@ -67,15 +67,29 @@ export default {
             const vm = this
             FB.ui({
                 method: 'share',
-                href: vm.$props.href,
-            })        
+                display: 'popup',
+                mobile_iframe: true,
+                href: vm.$props.href
+            })
+            ga("send", {
+                "hitType": "event",
+                "eventCategory": "facebook Share",
+                "eventAction": "click",
+                "eventLabel": "[" + Utils.detectPlatform() + "] [" + document.querySelector('title').innerHTML + "] [facebook share]"
+            });                                     
         },
         msgShare: function() {
             const vm = this
             window.FB.ui({
               method: 'send',
               link: vm.$props.href,
-            });            
+            });
+            ga("send", {
+                "hitType": "event",
+                "eventCategory": "messenger Share",
+                "eventAction": "click",
+                "eventLabel": "[" + Utils.detectPlatform() + "] [" + document.querySelector('title').innerHTML + "] [messenger share]"
+            });                  
         },
         showFw: function() {
             this.isFw ?
@@ -88,7 +102,6 @@ export default {
     },
     mounted() {
         this.device = Utils.detectMob()
-        console.log(this.device)
     }
 }
 </script>

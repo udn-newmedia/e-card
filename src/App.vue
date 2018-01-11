@@ -21,7 +21,7 @@ export default {
   z-index: 0;
   width: 100%;
   background: #F4D5BF url('./assets/apptexture.png') repeat;
-  background-size: auto; 
+  background-size: 10% 30%; 
 }
 @media screen and (min-width: 1024px){
   #app{

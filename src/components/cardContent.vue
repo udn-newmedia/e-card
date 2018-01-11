@@ -21,7 +21,6 @@
 				<p>正向改變，讓台灣更好</p>
 				<p><br/></p>
 				<p>新年快樂</p>
-				<p>聯合報</p>
 				<p><br/></p>
 				<hr class="blessTop" style='top: 0; left: 0; width: 23%;'>
 				<hr class="blessTop" style="top: 0; right: 0; width: 23%;">
