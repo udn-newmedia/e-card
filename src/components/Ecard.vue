@@ -23,7 +23,7 @@
 					</div>
 					<CardSideDec />
 				</div>
-				<Share class="customShare" href='./index.html'/>
+				<Share class="customShare" href='https://udn-newmedia.github.io/e-card/dist/'/>
 				<div class="contentSection">
 					<CardSideDec style="transform: rotate(180deg);"/>
 					<CardContent />
