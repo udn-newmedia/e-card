@@ -115,8 +115,8 @@ export default {
         justify-content: center;
         .shareSection{
             position: relative;
-            height: 50px;
-            width: 50px;
+            height: 40px;
+            width: 40px;
             cursor: pointer;
             margin: 0 15px;
             img{
@@ -216,4 +216,20 @@ export default {
             }
         }
     }
+    @media screen and (min-width: 768px) and (max-width: 1024px) {
+        .e-cardShare{
+            .shareSection{
+                height: 45px;
+                width: 45px;
+            }
+        }
+    }    
+    @media screen and (min-width: 1024px){
+        .e-cardShare{
+            .shareSection{
+                height: 50px;
+                width: 50px;
+            }
+        }       
+    }       
 </style>
