@@ -1,5 +1,6 @@
 <template>
     <div class="e-cardShare">
+        <pawLoading v-if='isLoading'/>
         <div class="shareSection" @click="fbShare">
             <img src="../assets/fb.png" alt="點我Facebook分享" title="點我Facebook分享">
         </div>
@@ -11,32 +12,53 @@
         </div>
         <div class="shareSection" @click="showFw"> 
             <img src="../assets/email.png" alt="點我Email分享" title="點我Email分享">
-        </div>    
+        </div>
         <div class="emailForm" v-if='isFw'>
             <div class="supClose" @click="showFw"></div>
-            <form id="fwEmail" :action="fwApi" method="post" @submit="handle_submit">
+            <form v-if='isLogIn' id="fwEmail" :action="fwApi" method="post" @submit="handle_email">
                 <div class="closeIt" @click="showFw">
                     <span></span>
                     <span></span>
                 </div>                
                 <h2>轉寄</h2>
+                <h5 class="hint">如需寄送多個信箱，請使用 ' <b>,</b> ' 連接。</h5>
                 <label for="target">收件者Email:</label>
                 <input type="text" v-model="address" name="target" required placeholder="eg: udngood@gmail.com, udnwin@udngroup.com.tw">
                 <input type="submit" value="送出">
             </form>
+            <form v-else @submit.prevent="handle_login">
+                <div class="closeIt" @click="showFw">
+                    <span></span>
+                    <span></span>
+                </div>
+                <h2>登入</h2>
+                <h5 class="hint">本服務僅提供給聯合報員工使用</h5>
+                <label for="target">員工代號：</label>
+                <input type="text" v-model="udnID" name="udnID" required placeholder="請輸入您的員工代號">
+                <label for="target">員工密碼：</label>
+                <input type="password" v-model="udnCode" name="udnCode" required placeholder="請輸入您的員工密碼">
+                <input type="submit" value="登入">                
+            </form>            
         </div>                           
     </div>
 </template>
 
 <script>
 
-import Utils from 'udn-newmedia-utils'
+import Utils from 'udn-newmedia-utils';
+import pawLoading from '../components/pawloading.vue';
+import axios from 'axios'
 
 export default {
+    components:{
+        pawLoading
+    },
     props: ['href'],
     data: function() {
         return {
             isFw: false,
+            isLogIn: false,
+            isLoading: false,
             fwApi: 'http://localhost:2022/ecardsender/gmail.php',
             // fwApi: 'https://udn.com/upf/newmedia/2018_data/ecard/gmail.php',
             // fwApi: null,
@@ -44,6 +66,8 @@ export default {
             address: null,
             sender: null,
             recive: null,
+            udnID: null,
+            udnCode: null,
         }
     },
     methods: {
@@ -94,12 +118,24 @@ export default {
                 this.isFw = false :
                 this.isFw = true
         },
-        handle_submit: function() {
+        handle_email: function() {
 
-        }
+        },
+        handle_login: function () {
+            console.log('log start')
+            this.isLoading = true;
+            const vm = this
+            setTimeout(() => {
+                vm.isLogIn = true;
+                this.isLoading = false;
+                console.log('logIn')
+            }, 3000)
+        },
     },
     mounted() {
         this.device = Utils.detectMob()
+        const url = 'https://eip.udngroup.com/sso/login/newmediaecard'
+        // axios.get()
     }
 }
 </script>
@@ -137,7 +173,7 @@ export default {
         align-items: center;
         cursor: pointer;
     }
-    #fwEmail{
+    form{
         position: relative;
         z-index: 20;
         width: 80%;
@@ -149,18 +185,31 @@ export default {
         h2{
             margin: 0;
         }
-        input[type="text"]{
+        label{
+            margin: 10px auto;
+        }
+        input{
             width: 100%;
             border: none;
-            border-bottom: 1px solid black;
+            border-bottom: 1px solid #888888;
+            padding-left: 5px;
+            appearance: none;
         }
         input[type="submit"]{
             display: block;
+            border: 1px solid black;
             margin: 20px 0 0 auto;
             width: 120px;
             height: 30px;
             text-align: center;
             border-radius: 15px;
+            transition: transform 666ms ease-in-out;
+            &:focus{
+                outline: none;
+            }
+            &:hover{
+                transform: scale(1.05);
+            }
         }
     }
     .supClose{
@@ -194,6 +243,14 @@ export default {
             &:nth-child(2){
                 transform: rotate(-45deg);
             }
+        }
+    }
+    .hint{
+        color: red;
+        &::before{
+            content: '＊';
+            color: inherit;
+            margin-right: 5px;
         }
     }
     @media screen and (min-width: 768px) and (max-width: 1024px) {
