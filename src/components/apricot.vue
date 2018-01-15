@@ -4,7 +4,7 @@
 		<img src="../assets/apricot.png">
 		<img src="../assets/apricot.png">
 		<img src="../assets/apricot.png">
-		<img class="udnLogo" src="../assets/udn-logo_black.png" alt='聯合報' title='聯合報'>
+		<!-- <img class="udnLogo" src="../assets/udn-logo_black.png" alt='聯合報' title='聯合報'> -->
 	</div>
 </template>
 

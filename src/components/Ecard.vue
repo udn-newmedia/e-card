@@ -16,10 +16,8 @@
 				</div>
 				<div class="videoSection">
 					<CardSideDec />
-					<div class="videoBorder">
-						<div class="videoContainer">
-							<video src="../assets/video.mp4" controls poster="../assets/meta.jpg"></video>		
-						</div>
+					<div class="videoBorder">					
+						<CardVideo />		
 					</div>
 					<CardSideDec />
 				</div>
@@ -35,13 +33,14 @@
 </template>
 
 <script>
-import CardSideDec from '../components/cardSideDec.vue'
-import Share from '../components/Share.vue'
-import OutBorder from '../components/outBorder.vue';
 import Apricot from '../components/apricot.vue';
+import CardSideDec from '../components/cardSideDec.vue';
+import CardContent from '../components/cardContent.vue';
+import CardVideo from '../components/cardVideo.vue';
+import Festival from '../components/festival.vue';
+import OutBorder from '../components/outBorder.vue';
+import Share from '../components/Share.vue';
 import Wuyear from '../components/wuyear.vue';
-import Festival from '../components/festival.vue'
-import CardContent from '../components/cardContent.vue'
 
 export default {
 
@@ -53,7 +52,8 @@ export default {
     Festival,
     Share,
     CardContent,
-    CardSideDec
+    CardSideDec,
+    CardVideo
   },
   data () {
     return {
@@ -128,7 +128,6 @@ export default {
 		z-index: 999 !important;
 	}
 	.videoBorder{
-		// margin-top: 5px;
 		margin: 5px auto 0 auto;
 		z-index: 1000;
 		width: 100%;
@@ -136,17 +135,7 @@ export default {
 		padding: 15px;
 		background: transparent url('../assets/videoBorder.png') left top no-repeat;
 		background-size: 100% 100%;
-	}
-	.videoContainer{
-		width: 100%;
-		height: 100%;
-		display: flex;
-		align-items: center;
-		video{
-			width: 100%;
-			height: 100%;
-		}
-	}
+	}	
 	.contentSection{
 		width: 100%;
 		display: flex;
@@ -179,7 +168,7 @@ export default {
 		.videoBorder{
 			padding: 25px;
 			width: 70%;
-		}
+		}			
 		.goldBorder{
 			padding: 9px;
 		}		

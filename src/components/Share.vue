@@ -14,17 +14,14 @@
         </div>    
         <div class="emailForm" v-if='isFw'>
             <div class="supClose" @click="showFw"></div>
-            <form id="fwEmail" :action="fwApi" method="post" @submit.prevent="handle_submit">
+            <form id="fwEmail" :action="fwApi" method="post" @submit="handle_submit">
                 <div class="closeIt" @click="showFw">
                     <span></span>
                     <span></span>
                 </div>                
-                <h2>轉寄功能</h2>
-                <div class="sendTo">
-                    <input type="text" v-model="sender" name="sender" placeholder="寄件者姓名"><p>寄給</p><input type="text" v-model="recive" name="recive" placeholder="收件者姓名">   
-                </div>
+                <h2>轉寄</h2>
                 <label for="target">收件者Email:</label>
-                <input type="email" v-model="address" name="target" required placeholder="xxx@gamil.com">
+                <input type="text" v-model="address" name="target" required placeholder="eg: udngood@gmail.com, udnwin@udngroup.com.tw">
                 <input type="submit" value="送出">
             </form>
         </div>                           
@@ -40,8 +37,9 @@ export default {
     data: function() {
         return {
             isFw: false,
-            // fwApi: 'http://localhost:2022/testemail/gmail.php',
-            fwApi: null,
+            fwApi: 'http://localhost:2022/ecardsender/gmail.php',
+            // fwApi: 'https://udn.com/upf/newmedia/2018_data/ecard/gmail.php',
+            // fwApi: null,
             device: null,
             address: null,
             sender: null,
@@ -76,7 +74,7 @@ export default {
                 "eventCategory": "facebook Share",
                 "eventAction": "click",
                 "eventLabel": "[" + Utils.detectPlatform() + "] [" + document.querySelector('title').innerHTML + "] [facebook share]"
-            });                                     
+            });
         },
         msgShare: function() {
             const vm = this
@@ -97,7 +95,7 @@ export default {
                 this.isFw = true
         },
         handle_submit: function() {
-            alert('未開放');
+
         }
     },
     mounted() {
@@ -151,7 +149,7 @@ export default {
         h2{
             margin: 0;
         }
-        input[type="email"]{
+        input[type="text"]{
             width: 100%;
             border: none;
             border-bottom: 1px solid black;
@@ -164,24 +162,6 @@ export default {
             text-align: center;
             border-radius: 15px;
         }
-    }
-    .sendTo{
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 10px;
-        input[type="text"]{
-            width: 33%;
-            border: none;
-            border-bottom: 1px solid black;   
-            text-align: center;         
-        }
-        p{
-            color: black;
-            text-align: center;
-
-        }        
     }
     .supClose{
         position: absolute;
