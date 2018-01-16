@@ -47,7 +47,7 @@ export default {
 	position: fixed;
 	z-index: 999999;
 	top: 25%;
-	left: 55%;
+	left: 50%;
 	transform-origin: 50% 50%;
 	transform: rotate(90deg) translate(0, 0);
 	font-size: 50px;

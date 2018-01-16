@@ -1,6 +1,6 @@
 <template>
     <div class="e-cardShare">
-        <pawLoading v-if='isLoading'/>
+        <pawLoading v-if="isLoading" />
         <div class="shareSection" @click="fbShare">
             <img src="../assets/fb.png" alt="點我Facebook分享" title="點我Facebook分享">
         </div>
@@ -15,39 +15,25 @@
         </div>
         <div class="emailForm" v-if='isFw'>
             <div class="supClose" @click="showFw"></div>
-            <form v-if='isLogIn' id="fwEmail" :action="fwApi" method="post" @submit="handle_email">
+            <form v-if='isLogIn' id="fwEmail" :action="fwApi" method="post">
                 <div class="closeIt" @click="showFw">
                     <span></span>
                     <span></span>
                 </div>                
-                <h2>轉寄</h2>
+                <h2>您好! {{userName}}</h2>
                 <h5 class="hint">如需寄送多個信箱，請使用 ' <b>,</b> ' 連接。</h5>
                 <label for="target">收件者Email:</label>
                 <input type="text" v-model="address" name="target" required placeholder="eg: udngood@gmail.com, udnwin@udngroup.com.tw">
                 <input type="submit" value="送出">
             </form>
-            <form v-else @submit.prevent="handle_login">
-                <div class="closeIt" @click="showFw">
-                    <span></span>
-                    <span></span>
-                </div>
-                <h2>登入</h2>
-                <h5 class="hint">本服務僅提供給聯合報員工使用</h5>
-                <label for="target">員工代號：</label>
-                <input type="text" v-model="udnID" name="udnID" required placeholder="請輸入您的員工代號">
-                <label for="target">員工密碼：</label>
-                <input type="password" v-model="udnCode" name="udnCode" required placeholder="請輸入您的員工密碼">
-                <input type="submit" value="登入">                
-            </form>            
         </div>                           
     </div>
 </template>
 
 <script>
-
+import axios from 'axios';
 import Utils from 'udn-newmedia-utils';
 import pawLoading from '../components/pawloading.vue';
-import axios from 'axios'
 
 export default {
     components:{
@@ -59,15 +45,15 @@ export default {
             isFw: false,
             isLogIn: false,
             isLoading: false,
-            fwApi: 'http://localhost:2022/ecardsender/gmail.php',
-            // fwApi: 'https://udn.com/upf/newmedia/2018_data/ecard/gmail.php',
+            // fwApi: 'http://localhost:2022/ecardsender/gmail.php',
+            fwApi: 'http://nmdap.udn.com.tw/ecard/mailsend/gmail.php',
             // fwApi: null,
             device: null,
             address: null,
             sender: null,
             recive: null,
-            udnID: null,
-            udnCode: null,
+            userData: null,
+            userName: '朋友'
         }
     },
     methods: {
@@ -117,25 +103,48 @@ export default {
             this.isFw ?
                 this.isFw = false :
                 this.isFw = true
+            if(!this.isLogIn){
+                this.isLoading = true
+                document.location.href = "https://eip.udngroup.com/sso/login/new-media-ecard"
+            }                
         },
-        handle_email: function() {
+        handle_params: function (url) {
+            let getPara, paraVal;
+            let paraVals = [];
 
-        },
-        handle_login: function () {
-            console.log('log start')
-            this.isLoading = true;
-            const vm = this
-            setTimeout(() => {
-                vm.isLogIn = true;
-                this.isLoading = false;
-                console.log('logIn')
-            }, 3000)
+            if(url.indexOf('?') !== -1) {
+                const getSearch = url.split('?');
+                getPara = getSearch[1].split('&');
+                for(let i = 0; i < getPara.length; i++){
+                    paraVal = getPara[i].split('=');
+                    paraVals[paraVal[0]] = paraVal[1]
+                }
+                return paraVals
+            }
         },
     },
     mounted() {
+        console.log('share mounted')
         this.device = Utils.detectMob()
-        const url = 'https://eip.udngroup.com/sso/login/newmediaecard'
-        // axios.get()
+
+        if(this.handle_params(location.search) !== undefined){
+            console.log('good')
+            const theUser = document.getElementById('userName') || undefined
+            if( theUser.innerHTML !== 't'){
+                this.isFw = true;
+                this.isLogIn = true;                
+            }
+        }
+        // if(sessionStorage.getItem('udnUser') !== null){
+        //     this.isFw = true;
+        //     this.isLogIn = true;            
+        // } else {
+        //     console.log(document.getElementById('userName').innerHTML)
+        //     console.log(document.getElementById('userPosition').innerHTML)
+        //     console.log(document.getElementById('userEmail').innerHTML)
+        //     console.log(document.getElementById('userDepartmentName').innerHTML)
+        // }
+        console.log(sessionStorage.getItem('udnUser'))
     }
 }
 </script>
